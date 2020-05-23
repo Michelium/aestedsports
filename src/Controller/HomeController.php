@@ -5,18 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
-{
+class HomeController extends AbstractController {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="index")
      */
-    public function index()
-    {
-        $words = ['sky', 'cloud', 'wood', 'rock', 'forest',
-            'mountain', 'breeze'];
+    public function index() {
 
-        return $this->render('home/index.html.twig', [
-            'words' => $words
+        return $this->render('index.html.twig', [
+
         ]);
     }
 }

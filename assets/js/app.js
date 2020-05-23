@@ -1,8 +1,16 @@
 import Vue from 'vue';
-import App from './components/App';
-import '../css/app.css';
+import VueRouter from "vue-router";
+import Routes from './routes.js';
 
-new Vue({
+import '../css/app.scss';
+import 'bootstrap';
+
+const $ = require('jquery');
+
+import App from "./views/App";
+
+const app = new Vue({
     el: '#app',
-    render: h => h(App)
+    router: Routes,
+    render: h => h(App),
 });

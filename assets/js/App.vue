@@ -1,5 +1,7 @@
 <template>
     <div>
+        <router-view :key="$route.path"></router-view>
+        <button class="btn btn-danger">Hello</button>
         <h2 class="center">My Application</h2>
         <div v-text="message"></div>
         {{ message }}
