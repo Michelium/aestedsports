@@ -1,14 +1,16 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Home from './components/Home';
+import Home from './pages/Home';
+import Catalogue from "./pages/Catalogue";
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',
-    routes:[
-        {path:'/', name:'home', component:Home}
+    routes: [
+        {path: '/', name: 'home', component: Home},
+        {path: '/catalogue', name: 'catalogue', component: Catalogue}
     ]
 });
 
