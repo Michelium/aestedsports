@@ -2,18 +2,30 @@
 
 namespace App\Controller;
 
+use App\Entity\Exercise;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/api")
+ */
 class ExerciseController extends ApiController {
 
+    private $em;
+
+    public function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+    }
+
     /**
-     * @Route("/admin/exercise")
+     * @Route("/exercise/findall", methods={"GET"})
      */
-    public function moviesAction() {
+    public function findAll() {
+        $exercises = $this->em->getRepository(Exercise::class)->transformAll();
+
         return $this->respond([
             [
-                'title' => 'The Princess Bride',
-                'count' => 0
+                'exercises' => $exercises,
             ]
         ]);
     }

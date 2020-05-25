@@ -19,6 +19,28 @@ class ExerciseRepository extends ServiceEntityRepository
         parent::__construct($registry, Exercise::class);
     }
 
+    public function transform(Exercise $exercise)
+    {
+        return [
+            'id'    => (int) $exercise->getId(),
+            'title' => (string) $exercise->getName(),
+            'description' => (string) $exercise->getDescription(),
+            'image' => (string) $exercise->getImage(),
+        ];
+    }
+
+    public function transformAll()
+    {
+        $exercises =  $this->findAll();
+        $exercisesArray = [];
+
+        foreach ($exercises as $exercise) {
+            $exercisesArray[] = $this->transform($exercise);
+        }
+
+        return $exercisesArray;
+    }
+
     // /**
     //  * @return Exercise[] Returns an array of Exercise objects
     //  */

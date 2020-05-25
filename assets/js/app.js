@@ -6,6 +6,7 @@ import '../css/app.scss';
 import 'bootstrap';
 
 const $ = require('jquery');
+global.$ = global.jQuery = $;
 
 import App from "./views/App";
 
