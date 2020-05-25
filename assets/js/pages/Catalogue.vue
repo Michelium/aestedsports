@@ -40,7 +40,6 @@
             let _this = this;
             $.getJSON('/api/exercise/findall', function (data) {
                 _this.exercises = data[0].exercises;
-                console.log(data);
             })
         }
     }

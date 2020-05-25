@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Exercise;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,5 +29,36 @@ class ExerciseController extends ApiController {
                 'exercises' => $exercises,
             ]
         ]);
+    }
+
+    /**
+     * @Route("/exercise/{id}", methods={"POST"})
+     */
+    public function form(Request $request, $id = null) {
+        if (!$request) {
+            return $this->respondValidationError('Please provide a valid request!');
+        }
+
+        if (!$request->get('title')) {
+            return $this->respondValidationError('Please provide a title!');
+        }
+        if (!$request->get('description')) {
+            return $this->respondValidationError('Please provide a description!');
+        }
+
+        $exercise = null;
+        if ($id) {
+            $exercise = $this->em->getRepository(Exercise::class)->find($id);
+        } else {
+            $exercise = new Exercise();
+        }
+        $exercise->setName($request->get('title'));
+        $exercise->setDescription($request->get('description'));
+
+        $this->em->persist($exercise);
+        $this->em->flush();
+
+        return $this->respondCreated($this->em->getRepository(Exercise::class)->transform($exercise));
+
     }
 }

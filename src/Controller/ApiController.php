@@ -30,8 +30,22 @@ class ApiController {
         return new JsonResponse($data, $this->getStatusCode(), $headers);
     }
 
-    
     public function respondUnauthorized($message = 'Not authorized!') {
         return $this->setStatusCode(401)->respondWithErrors($message);
+    }
+
+    public function respondValidationError($message = 'Validation errors')
+    {
+        return $this->setStatusCode(422)->respondWithErrors($message);
+    }
+
+    public function respondNotFound($message = 'Not found!')
+    {
+        return $this->setStatusCode(404)->respondWithErrors($message);
+    }
+
+    public function respondCreated($data = [])
+    {
+        return $this->setStatusCode(201)->respond($data);
     }
 }
