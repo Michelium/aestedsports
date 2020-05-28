@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Exercise;
+use App\Repository\ExerciseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,6 +60,17 @@ class ExerciseController extends ApiController {
         $this->em->flush();
 
         return $this->respondCreated($this->em->getRepository(Exercise::class)->transform($exercise));
+    }
 
+    /**
+     * @Route("/exercise/{id}/delete")
+     */
+    public function delete($id, ExerciseRepository $exerciseRepository) {
+        $exercise = $this->em->getRepository(Exercise::class)->find($id);
+
+        $this->em->remove($exercise);
+        $this->em->flush();
+
+        return $this->respond([['exercises' => $exerciseRepository->transformAll()]]);
     }
 }

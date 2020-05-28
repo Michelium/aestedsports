@@ -15,16 +15,12 @@
                             <form @submit.prevent="onSubmit">
                                 <span class="text-danger" v-text="errors"></span>
                                 <div class="form-group">
-                                    <label>
-                                        Name
-                                        <input type="text" name="title" class="form-control" v-model="title">
-                                    </label>
+                                    <label>Name</label>
+                                    <input type="text" id="title" class="form-control" v-model="title">
                                 </div>
                                 <div class="form-group">
-                                    <label>
-                                        Description
-                                        <textarea type="text" name="title" class="form-control" v-model="description"></textarea>
-                                    </label>
+                                    <label for="description">Description</label>
+                                    <textarea type="text" id="description" class="form-control" rows="5" v-model="description"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-success btn-sm">Submit</button>
                             </form>
@@ -55,6 +51,15 @@
                 isLoading: false,
             }
         },
+        props: {
+            exercise: {
+                type: Object,
+                required: false,
+            }
+        },
+        mounted() {
+            this.fillForm();
+        },
         methods: {
             onSubmit() {
                 this.isLoading = true;
@@ -62,21 +67,28 @@
             },
             postExercise() {
                 let _this = this;
+                let url = this.exercise !== undefined ? "/api/exercise/"+this.exercise.id : "/api/exercise"
                 $.ajax({
                     method: "POST",
-                    url: "/api/exercise",
+                    url: url,
                     data: _this.$data,
                 })
-                .always(function (response) {
-                    _this.title = '';
-                    _this.description = '';
-                    _this.isLoading = false;
-                    _this.$emit('completed', response.data);
-                })
-                .fail(function (response) {
-                    _this.errors = response.response.data.errors;
-                    _this.isLoading = false;
-                });
+                    .always(function (response) {
+                        _this.title = '';
+                        _this.description = '';
+                        _this.isLoading = false;
+                        _this.$emit('completed', response.data);
+                    })
+                    .fail(function (response) {
+                        _this.errors = response.response.data.errors;
+                        _this.isLoading = false;
+                    });
+            },
+            fillForm() {
+                if (this.exercise !== undefined) {
+                    this.title = this.exercise.title;
+                    this.description = this.exercise.description;
+                }
             }
         }
     }
